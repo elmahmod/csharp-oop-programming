@@ -1,3 +1,5 @@
 <Solution>
-  <Project Path="Object/Object.csproj" />
+  <Project Path="AccessModifiers/AccessModifiers.csproj" Id="68eecb4f-187d-4c0f-841b-eae490df8737" />
+  <Project Path="Object/Object.csproj" Id="16343149-61f7-428c-bd39-87035f1c3139" />
+  <Project Path="StaticMembersMethods/StaticMembersMethods.csproj" Id="bb3903fd-bf53-4304-8835-6358f7365794" />
 </Solution>
