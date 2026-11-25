@@ -1,6 +1,7 @@
 <Solution>
   <Project Path="AccessModifiers/AccessModifiers.csproj" Id="68eecb4f-187d-4c0f-841b-eae490df8737" />
   <Project Path="CalculatorProject/CalculatorProject.csproj" Id="7468b618-605c-4ee3-aeba-d36ca3045904" />
+  <Project Path="Constructor/Constructor.csproj" Id="293d2a95-c597-4ca9-bc0e-71b65f21c342" />
   <Project Path="Object/Object.csproj" Id="16343149-61f7-428c-bd39-87035f1c3139" />
   <Project Path="Properties/Properties.csproj" Id="1f4b68c2-ae72-4b1d-9251-8d54aa09eca1" />
   <Project Path="StaticMembersMethods/StaticMembersMethods.csproj" Id="bb3903fd-bf53-4304-8835-6358f7365794" />
