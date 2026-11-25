@@ -13,7 +13,6 @@ namespace CalculatorProject
         private float _lastNumber = 0;
         private bool _divisionByZeroError = false;
 
-        // Enum
         private enum OperationType
         {
             Add,
@@ -25,36 +24,41 @@ namespace CalculatorProject
 
         private OperationType _currentOperation = OperationType.Clear;
 
-        public void PrintResult()
+        private string GetOperationName()
         {
             switch (_currentOperation)
             {
                 case OperationType.Add:
-                    Console.WriteLine($"Result After Adding {_lastNumber} is : {_result}");
-                    break;
+                    return "Adding";
 
                 case OperationType.Subtract:
-                    Console.WriteLine($"Result After Subtracting {_lastNumber} is : {_result}");
-                    break;
+                    return "Subtracting";
 
                 case OperationType.Multiply:
-                    Console.WriteLine($"Result After Multiplying {_lastNumber} is : {_result}");
-                    break;
+                    return "Multiplying";
 
                 case OperationType.Divide:
-                    if (_divisionByZeroError)
-                    {
-                        Console.WriteLine("Cannot Divide by 0!");
-                        return;
-                    }
+                    return "Dividing";
 
-                    Console.WriteLine($"Result After Dividing {_lastNumber} is : {_result}");
-                    break;
-
-                case OperationType.Clear:
-                    Console.WriteLine($"Result Cleared = {_result}");
-                    break;
+                default:
+                    return "Unknown";
             }
+        }
+        public void PrintResult()
+        {
+            if (_currentOperation == OperationType.Clear)
+            {
+                Console.WriteLine($"Result Cleared = {_result}");
+                return;
+            }
+
+            if (_currentOperation == OperationType.Divide && _divisionByZeroError)
+            {
+                Console.WriteLine("Cannot Divide by 0!");
+                return;
+            }
+
+            Console.WriteLine($"Result After {GetOperationName()} {_lastNumber} is: {_result}");
         }
 
         public void Clear()
