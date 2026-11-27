@@ -56,22 +56,64 @@ namespace Inheritance
 
     internal class Program
     {
+
         static void Main(string[] args)
         {
-            // Up-casting
+            // Upcasting: Implicitly convert an Employee reference to a Person reference.
+            // This is safe because Employee inherits from Person.
             Employee employee = new Employee(1, "muhamed", "el mahmod", "Mr.", 250, "CS");
             Person person = employee;
             person.Greet();
 
-            // Down-casting ( no one usually use this method..)
+
+            // Downcasting: Explicitly convert a Person reference back to Employee.
+            // This succeeds because the actual object is an Employee.
             Person person2 = new Employee(2, "muhamed", "el mahmod", "Mr.", 250, "CS");
             Employee employee2 = (Employee)person2;
             employee2.Work();
 
-            // Invalid Down-casting
-            //Person person3 = new Person(3, "muhamed", "el mahmod", "Mr.");
-            //Employee employee3 = (Employee)person3;
 
+            // Invalid Downcasting: A Person object cannot be cast to Employee.
+            // Use 'is' to check the object's type before casting.
+            Person person3 = new Person(3, "Ahmed", "Ali", "Mr.");
+
+            if (person3 is Employee)
+            {
+                // This executes only if person3 refers to an Employee object.
+                Employee employee3 = (Employee)person3;
+                employee3.Work();
+            }
+            else
+            {
+                Console.WriteLine("This person is not an Employee.");
+            }
+
+
+            // Safe Downcasting using 'as'.
+            // Returns null if the object cannot be converted to Employee.
+            Person person4 = new Person(4, "Omar", "Ali", "Mr.");
+
+            Employee employee4 = person4 as Employee;
+
+            if (employee4 != null)
+            {
+                employee4.Work();
+            }
+            else
+            {
+                Console.WriteLine("Casting failed.");
+            }
+
+
+            // Pattern Matching: Check the type and declare a variable in one step.
+            // The variable employee5 is available when the type check succeeds.
+            Person person5 = new Employee(5, "Sara", "Ali", "Ms.", 500, "IT");
+
+            if (person5 is Employee employee5)
+            {
+                person5.Greet();
+                employee5.Work();
+            }
         }
     }
 }
