@@ -30,6 +30,10 @@ namespace Inheritance
         {
             Console.WriteLine($"Hi, my name is {FullName} and my Id is {Id}");
         }
+        public virtual void Print()
+        {
+            Console.WriteLine($"I'm the print method from the base class");
+        }
     }
 
     // (Derived / Child / sub) Class
@@ -51,6 +55,11 @@ namespace Inheritance
         public void Work()
         {
             Console.WriteLine($"I work at {DepartmentName} and earn {Salary:C}");
+        }
+        public override void Print()
+        {
+            Console.WriteLine($"I'm the print method from the derived class");
+            //base.Print();
         }
     }
 
@@ -114,6 +123,12 @@ namespace Inheritance
                 person5.Greet();
                 employee5.Work();
             }
+
+            // Method Overriding: The actual object type determines the method.
+            employee.Print(); // Employee.Print()
+
+            Person basePerson = new Person(6, "Omar", "Ali", "Mr.");
+            basePerson.Print();
         }
     }
 }
