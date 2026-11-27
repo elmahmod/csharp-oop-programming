@@ -26,7 +26,10 @@ namespace Inheritance
         {
             get { return FirstName + ' ' + LastName; }
         }
-
+        public void Greet()
+        {
+            Console.WriteLine($"Hi, my name is {FullName} and my Id is {Id}");
+        }
     }
 
     // (Derived / Child / sub) Class
@@ -45,23 +48,30 @@ namespace Inheritance
         {
             Salary += amount;
         }
+        public void Work()
+        {
+            Console.WriteLine($"I work at {DepartmentName} and earn {Salary:C}");
+        }
     }
 
     internal class Program
     {
         static void Main(string[] args)
         {
+            // Up-casting
             Employee employee = new Employee(1, "muhamed", "el mahmod", "Mr.", 250, "CS");
+            Person person = employee;
+            person.Greet();
 
-            Console.WriteLine($"Id: {employee.Id}");
-            Console.WriteLine($"Title: {employee.Title}");
-            Console.WriteLine($"Full Name: {employee.FullName}");
-            Console.WriteLine($"Department Name: {employee.DepartmentName}");
-            Console.WriteLine($"Salary: {employee.Salary}");
+            // Down-casting ( no one usually use this method..)
+            Person person2 = new Employee(2, "muhamed", "el mahmod", "Mr.", 250, "CS");
+            Employee employee2 = (Employee)person2;
+            employee2.Work();
 
-            employee.IncreaseSalaryByAmount(50);
+            // Invalid Down-casting
+            //Person person3 = new Person(3, "muhamed", "el mahmod", "Mr.");
+            //Employee employee3 = (Employee)person3;
 
-            Console.WriteLine($"Salary After Increase: {employee.Salary}");
         }
     }
 }
