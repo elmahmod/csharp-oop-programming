@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Inheritance
 {
-    // (Base / Parent / super) Class
+    // Base / Parent / Super Class
     public class Person
     {
         public Person(int id, string firstName, string lastName, string title)
@@ -18,33 +18,46 @@ namespace Inheritance
             LastName = lastName;
             Title = title;
         }
+
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Title { get; set; }
+
         public string FullName
         {
             get { return FirstName + ' ' + LastName; }
         }
+
         public void Greet()
         {
             Console.WriteLine($"Hi, my name is {FullName} and my Id is {Id}");
         }
+
+        // Method Overriding: Can be overridden in a derived class.
         public virtual void Print()
         {
-            Console.WriteLine($"I'm the print method from the base class");
+            Console.WriteLine("I'm the print method from the base class");
+        }
+
+        // Method Hiding: Non-virtual method in the base class.
+        public void ShowRole()
+        {
+            Console.WriteLine("I'm a Person.");
         }
     }
 
-    // (Derived / Child / sub) Class
+    // Derived / Child / Subclass
     public class Employee : Person // IS-A Relationship: Employee is a Person.
     {
-        public Employee(int id, string firstName, string lastName, string title, float salary, string departmentName)
+        public Employee(int id, string firstName, string lastName, string title,
+            float salary, string departmentName)
             : base(id, firstName, lastName, title)
         {
             Salary = salary;
             DepartmentName = departmentName;
         }
+
         public float Salary { get; set; }
         public string DepartmentName { get; set; }
 
@@ -52,20 +65,29 @@ namespace Inheritance
         {
             Salary += amount;
         }
+
         public void Work()
         {
             Console.WriteLine($"I work at {DepartmentName} and earn {Salary:C}");
         }
+
+        // Method Overriding: Replaces the inherited virtual implementation.
         public override void Print()
         {
-            Console.WriteLine($"I'm the print method from the derived class");
+            Console.WriteLine("I'm the print method from the derived class");
             //base.Print();
+        }
+
+        // Method Hiding: Hides the base class method.
+        // The method called depends on the reference type.
+        public new void ShowRole()
+        {
+            Console.WriteLine("I'm an Employee.");
         }
     }
 
     internal class Program
     {
-
         static void Main(string[] args)
         {
             // Upcasting: Implicitly convert an Employee reference to a Person reference.
@@ -124,11 +146,23 @@ namespace Inheritance
                 employee5.Work();
             }
 
+
             // Method Overriding: The actual object type determines the method.
+            Console.WriteLine("\n--- Method Overriding ---");
+
             employee.Print(); // Employee.Print()
+            person.Print();   // Employee.Print()
 
             Person basePerson = new Person(6, "Omar", "Ali", "Mr.");
-            basePerson.Print();
+            basePerson.Print(); // Person.Print()
+
+
+            // Method Hiding: The reference type determines the method.
+            Console.WriteLine("\n--- Method Hiding ---");
+
+            employee.ShowRole(); // Employee.ShowRole()
+            person.ShowRole();   // Person.ShowRole()
+            basePerson.ShowRole(); // Person.ShowRole()
         }
     }
 }
