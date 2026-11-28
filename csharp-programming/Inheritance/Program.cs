@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Inheritance
 {
-    // Base / Parent / Super Class
+    // Base Class
     public class Person
     {
         public Person(int id, string firstName, string lastName, string title)
@@ -34,21 +34,19 @@ namespace Inheritance
             Console.WriteLine($"Hi, my name is {FullName} and my Id is {Id}");
         }
 
-        // Method Overriding: Can be overridden in a derived class.
         public virtual void Print()
         {
             Console.WriteLine("I'm the print method from the base class");
         }
 
-        // Method Hiding: Non-virtual method in the base class.
         public void ShowRole()
         {
             Console.WriteLine("I'm a Person.");
         }
     }
 
-    // Derived / Child / Subclass
-    public class Employee : Person // IS-A Relationship: Employee is a Person.
+    // Derived Class: Employee IS-A Person.
+    public class Employee : Person
     {
         public Employee(int id, string firstName, string lastName, string title,
             float salary, string departmentName)
@@ -71,18 +69,57 @@ namespace Inheritance
             Console.WriteLine($"I work at {DepartmentName} and earn {Salary:C}");
         }
 
-        // Method Overriding: Replaces the inherited virtual implementation.
         public override void Print()
         {
             Console.WriteLine("I'm the print method from the derived class");
             //base.Print();
         }
 
-        // Method Hiding: Hides the base class method.
-        // The method called depends on the reference type.
         public new void ShowRole()
         {
             Console.WriteLine("I'm an Employee.");
+        }
+    }
+
+    // Multilevel Inheritance: Doctor -> Employee -> Person
+    public class Doctor : Employee
+    {
+        public Doctor(int id, string firstName, string lastName, string title,
+            float salary, string departmentName, string specialty)
+            : base(id, firstName, lastName, title, salary, departmentName)
+        {
+            Specialty = specialty;
+        }
+
+        public string Specialty { get; set; }
+
+        public void Heal()
+        {
+            Console.WriteLine($"Doctor {FullName} specializes in {Specialty}.");
+        }
+    }
+
+    // Hierarchical Inheritance: User and Employee inherit from Person.
+    public class User : Person
+    {
+        public User(int id, string firstName, string lastName, string title,
+            string username, string password, int permission)
+            : base(id, firstName, lastName, title)
+        {
+            Username = username;
+            Password = password;
+            Permission = permission;
+        }
+
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public int Permission { get; set; }
+
+        public void Info()
+        {
+            Console.WriteLine($"Username: {Username}");
+            Console.WriteLine($"Password: {Password}");
+            Console.WriteLine($"Permission: {Permission}");
         }
     }
 
@@ -90,27 +127,23 @@ namespace Inheritance
     {
         static void Main(string[] args)
         {
-            // Upcasting: Implicitly convert an Employee reference to a Person reference.
-            // This is safe because Employee inherits from Person.
+            // Upcasting
             Employee employee = new Employee(1, "muhamed", "el mahmod", "Mr.", 250, "CS");
             Person person = employee;
             person.Greet();
 
 
-            // Downcasting: Explicitly convert a Person reference back to Employee.
-            // This succeeds because the actual object is an Employee.
+            // Downcasting
             Person person2 = new Employee(2, "muhamed", "el mahmod", "Mr.", 250, "CS");
             Employee employee2 = (Employee)person2;
             employee2.Work();
 
 
-            // Invalid Downcasting: A Person object cannot be cast to Employee.
-            // Use 'is' to check the object's type before casting.
+            // Invalid Downcasting: Check with 'is' before casting.
             Person person3 = new Person(3, "Ahmed", "Ali", "Mr.");
 
             if (person3 is Employee)
             {
-                // This executes only if person3 refers to an Employee object.
                 Employee employee3 = (Employee)person3;
                 employee3.Work();
             }
@@ -120,8 +153,7 @@ namespace Inheritance
             }
 
 
-            // Safe Downcasting using 'as'.
-            // Returns null if the object cannot be converted to Employee.
+            // Safe Downcasting using 'as'
             Person person4 = new Person(4, "Omar", "Ali", "Mr.");
 
             Employee employee4 = person4 as Employee;
@@ -136,8 +168,7 @@ namespace Inheritance
             }
 
 
-            // Pattern Matching: Check the type and declare a variable in one step.
-            // The variable employee5 is available when the type check succeeds.
+            // Pattern Matching
             Person person5 = new Employee(5, "Sara", "Ali", "Ms.", 500, "IT");
 
             if (person5 is Employee employee5)
@@ -147,7 +178,7 @@ namespace Inheritance
             }
 
 
-            // Method Overriding: The actual object type determines the method.
+            // Method Overriding
             Console.WriteLine("\n--- Method Overriding ---");
 
             employee.Print(); // Employee.Print()
@@ -157,12 +188,64 @@ namespace Inheritance
             basePerson.Print(); // Person.Print()
 
 
-            // Method Hiding: The reference type determines the method.
+            // Method Hiding
             Console.WriteLine("\n--- Method Hiding ---");
 
-            employee.ShowRole(); // Employee.ShowRole()
-            person.ShowRole();   // Person.ShowRole()
+            employee.ShowRole();   // Employee.ShowRole()
+            person.ShowRole();     // Person.ShowRole()
             basePerson.ShowRole(); // Person.ShowRole()
+
+
+            // Multilevel Inheritance
+            Console.WriteLine("\n--- Multilevel Inheritance ---");
+
+            Doctor doctor = new Doctor(
+                7, "Ahmed", "Ali", "Dr.", 1500, "Cardiology", "Cardiologist"
+            );
+
+            doctor.Greet();
+            Console.WriteLine($"Full Name: {doctor.FullName}");
+
+            doctor.Work();
+            doctor.IncreaseSalaryByAmount(500);
+            Console.WriteLine($"Salary After Increase: {doctor.Salary}");
+
+            Console.WriteLine($"Specialty: {doctor.Specialty}");
+            doctor.Heal();
+
+            doctor.Print();
+            doctor.ShowRole();
+
+
+            // Multilevel Upcasting
+            Console.WriteLine("\n--- Multilevel Upcasting ---");
+
+            Employee employeeDoctor = doctor;
+            Person personDoctor = doctor;
+
+            employeeDoctor.Work();
+            personDoctor.Greet();
+            personDoctor.Print();
+
+
+            // Hierarchical Inheritance
+            Console.WriteLine("\n--- Hierarchical Inheritance ---");
+
+            User user = new User(
+                8, "Mohammed", "Ali", "Mr.", "mohammed123", "12345", 1
+            );
+
+            user.Greet();
+            Console.WriteLine($"Full Name: {user.FullName}");
+            user.Info();
+
+
+            // Upcasting: User -> Person
+            Person personUser = user;
+
+            personUser.Greet();
+            personUser.Print();
+            personUser.ShowRole();
         }
     }
 }
